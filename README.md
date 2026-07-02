@@ -23,26 +23,12 @@ Pour déployer et lancer ce projet sur votre machine locale, suivez le protocole
 git clone [https://github.com/VOTRE-NOM-UTILISATEUR/Django-todolist.git](https://github.com/VOTRE-NOM-UTILISATEUR/Django-todolist.git)
 cd Django-todolist bash
 ```
-2. Créer et activer l'environnement virtuel
-```
-python3 -m venv env
-source env/bin/activate
-```
-4. Installer les dépendances (Django & Pillow)
-```
-pip install django Pillow
-```
-6. Appliquer les migrations de la base de données
-```
-python manage.py makemigrations
-python manage.py migrate
-```
+## 🎯 Lancement de l'application (Via Docker Compose)
 
-🎯 Lancement de l'application
-Pour démarrer le générateur et lancer le serveur de développement local, exécutez la commande suivante dans votre terminal :
+Plus besoin d'installer Python ou des dépendances localement. Lancez simplement l'application dans son conteneur isolé avec :
 
-```
-python manage.py runserver
+```bash
+docker compose up --build -d
 ```
 Une fois le serveur actif, ouvrez votre navigateur et rendez-vous à l'adresse suivante :
 👉 http://127.0.0.1:8000/
