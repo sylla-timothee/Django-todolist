@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-qr+mlr6*wsxh=r6((ma7(xvfgw(-6pw-qaly+71r7xf=t1+_r_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['todo.stentorio.fr', '127.0.0.1', 'localhost']
+CSRF_TRUSTED_ORIGINS = ['https://todo.stentorio.fr']
 
 
 # Application definition
