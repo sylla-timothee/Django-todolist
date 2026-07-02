@@ -1,0 +1,47 @@
+{% extends 'todo/main.html' %}
+{% block content %}
+
+<div class="bg-gradient-to-r from-[#FF7E5F] to-[#FEB47B] p-8 text-white text-center">
+    <h1 class="text-2xl font-semibold tracking-wide">Créer un compte</h1>
+    <p class="text-xs opacity-90 mt-1 text-[#FDFBF7]">Rejoignez le système pour sécuriser vos tâches</p>
+</div>
+
+<form method="POST" action="" class="p-8 space-y-6 bg-white">
+    {% csrf_token %}
+    
+    <div class="space-y-4">
+        {% for field in form %}
+            <div class="flex flex-col gap-1">
+                <label class="text-sm font-medium text-gray-600">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                    <p class="text-[10px] text-gray-400 leading-tight max-w-full">{{ field.help_text }}</p>
+                {% endif %}
+                {% if field.errors %}
+                    <p class="text-xs text-red-500 font-medium">{{ field.errors.0 }}</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <button type="submit" class="w-full bg-[#FF7E5F] hover:bg-[#ED6A4C] text-white font-medium py-3 rounded-xl transition shadow-lg shadow-[#FF7E5F]/20">
+        S'inscrire et démarrer
+    </button>
+
+    <p class="text-center text-sm text-gray-500 mt-4">
+        Vous avez déjà un accès ? 
+        <a href="{% url 'login' %}" class="text-amber-600 hover:underline font-medium">Connectez-vous ici</a>
+    </p>
+</form>
+
+<style>
+    input[type="text"], input[type="password"], input[type="email"] {
+        width: 100%; padding: 0.75rem; border: 1px solid #EDE6D4; border-radius: 0.75rem; background-color: #FDFBF7; outline: none; transition: all 0.2s;
+    }
+    input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus { 
+        border-color: #FF7E5F; box-shadow: 0 0 0 3px rgba(255, 126, 95, 0.1);
+    }
+    ul.helptext { display: none; } 
+</style>
+
+{% endblock content %}

@@ -1,0 +1,11 @@
+# Environnement virtuel
+env/
+venv/
+__pycache__/
+*.pyc
+
+# Base de données locale
+db.sqlite3
+
+# Fichiers médias téléversés (les avatars de test)
+media/

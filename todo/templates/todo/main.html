@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stark Todo-List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
+</head>
+<body class="bg-[#FDFBF7] text-gray-800 min-h-screen flex flex-col items-center py-10 px-4">
+
+    <div class="w-full max-w-xl bg-[#F7F3E9] rounded-2xl shadow-xl border border-[#EDE6D4] overflow-hidden">
+        {% block content %}
+        {% endblock content %}
+    </div>
+
+</body>
+</html>
