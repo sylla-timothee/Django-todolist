@@ -1,6 +1,6 @@
-# 🌅 Django Todo-List — Édition Crépuscule
+# 🌅 Django Todo-List
 
-Une application Web de gestion de tâches (Todo-List) robuste, sécurisée et élégante, développée avec le framework **Django** et habillée avec **Tailwind CSS**. Ce projet a été conçu dans un cadre académique pour démontrer la maîtrise d'un CRUD complet, d'un système d'authentification utilisateur étanche et de l'extension de modèles.
+Une application Web de gestion de tâches (Todo-List) robuste, sécurisée et élégante, développée avec le framework **Django** et habillée avec **Tailwind CSS**. Ce projet a été conçu dans un cadre personnel pour démontrer la maîtrise d'un CRUD complet, d'un système d'authentification utilisateur étanche et de l'extension de modèles.
 
 ---
 
