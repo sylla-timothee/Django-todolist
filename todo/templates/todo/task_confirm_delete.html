@@ -1,13 +1,27 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head><meta charset="UTF-8"><title>Supprimer</title></head>
-<body>
-    <h1>Supprimer la tâche</h1>
-    <p>Êtes-vous sûr de vouloir supprimer la tâche : "<strong>{{ task.title }}</strong>" ?</p>
-    <form method="POST">
+{% extends 'todo/main.html' %}
+{% block content %}
+
+<div class="bg-gradient-to-r from-[#FF7E5F] to-[#FEB47B] p-6 text-white">
+    <h1 class="text-xl font-semibold">Supprimer la tâche</h1>
+    <a href="{% url 'tasks' %}" class="text-xs text-[#FDFBF7] hover:underline">← Retour au tableau</a>
+</div>
+
+<div class="p-6 bg-white text-center">
+    <p class="text-gray-600 mb-6">
+        Êtes-vous sûr de vouloir supprimer la tâche :
+        <strong class="text-gray-800">"{{ task.title }}"</strong> ?
+    </p>
+
+    <form method="POST" class="space-y-3">
         {% csrf_token %}
-        <input type="submit" value="Confirmer la suppression">
-        <a href="{% url 'tasks' %}">Annuler</a>
+        <button type="submit" class="w-full bg-red-500 hover:bg-red-600 text-white font-medium py-3 rounded-xl transition shadow-md">
+            Confirmer la suppression
+        </button>
+        <a href="{% url 'tasks' %}"
+           class="block w-full bg-gray-100 hover:bg-gray-200 text-gray-600 font-medium py-3 rounded-xl transition text-center">
+            Annuler
+        </a>
     </form>
-</body>
-</html>
+</div>
+
+{% endblock content %}

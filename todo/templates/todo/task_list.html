@@ -13,7 +13,7 @@
             <p class="text-xs opacity-90 text-[#FDFBF7]">Vos objectifs du jour</p>
         </div>
     </div>
-    
+
     <form method="POST" action="{% url 'logout' %}">
         {% csrf_token %}
         <button type="submit" class="bg-white/20 hover:bg-white/30 text-white text-xs font-medium py-2 px-4 rounded-xl transition backdrop-blur-sm">
@@ -25,36 +25,157 @@
 
 <div class="p-6">
     <div class="flex justify-between items-center mb-6">
-        <h2 class="text-lg font-medium text-gray-700">Ma Liste Privée</h2>
+        <h2 class="text-lg font-medium text-gray-700">Tableau de bord</h2>
         <a href="{% url 'task-create' %}" class="bg-[#FF7E5F] hover:bg-[#ED6A4C] text-white font-medium text-sm py-2 px-4 rounded-xl transition shadow-md shadow-[#FF7E5F]/20 flex items-center gap-2">
             <span>➕</span> Nouvelle Tâche
         </a>
     </div>
 
-    <div class="space-y-3">
-        {% for task in tasks %}
-        <div class="flex justify-between items-center bg-white p-4 rounded-xl border border-[#EDE6D4] hover:shadow-md transition">
-            <div class="flex items-center gap-3">
-                {% if task.complete %}
-                    <span class="text-xl">✅</span>
-                    <span class="line-through text-gray-400 font-light">{{ task.title }}</span>
-                {% else %}
-                    <span class="text-xl">⏳</span>
-                    <span class="text-gray-700 font-medium">{{ task.title }}</span>
-                {% endif %}
-            </div>
-            
-            <div class="flex gap-4 text-sm">
-                <a href="{% url 'task-update' task.id %}" class="text-amber-600 hover:text-amber-700 font-medium transition">Modifier</a>
-                <a href="{% url 'task-delete' task.id %}" class="text-[#FF7E5F] hover:text-red-600 font-medium transition">Supprimer</a>
+    <div class="kanban-board flex gap-4 overflow-x-auto pb-4" role="region" aria-label="Tableau des tâches">
+
+        <div class="kanban-column flex-1 min-w-[250px] bg-[#FDFBF7] rounded-xl border border-[#EDE6D4] p-4" data-status="todo" aria-label="Colonne À faire">
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-amber-400 inline-block"></span>
+                À faire
+                <span class="ml-auto text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">{{ todos|length }}</span>
+            </h3>
+            <div id="todo-list" class="kanban-cards min-h-[120px] space-y-2" role="list" aria-label="Tâches à faire">
+                {% for task in todos %}
+                    {% include 'todo/task_card.html' with task=task %}
+                {% empty %}
+                    <div class="text-center py-6 text-gray-400 text-xs border-2 border-dashed border-[#EDE6D4] rounded-lg" role="status">
+                        Aucune tâche
+                    </div>
+                {% endfor %}
             </div>
         </div>
-        {% empty %}
-        <div class="text-center py-10 bg-white rounded-xl border border-dashed border-[#EDE6D4]">
-            <p class="text-gray-400 text-sm">Aucune tâche pour le moment. Reposez-vous, Monsieur.</p>
+
+        <div class="kanban-column flex-1 min-w-[250px] bg-[#FDFBF7] rounded-xl border border-[#EDE6D4] p-4" data-status="in_progress" aria-label="Colonne En cours">
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-blue-400 inline-block"></span>
+                En cours
+                <span class="ml-auto text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">{{ in_progress|length }}</span>
+            </h3>
+            <div id="in-progress-list" class="kanban-cards min-h-[120px] space-y-2" role="list" aria-label="Tâches en cours">
+                {% for task in in_progress %}
+                    {% include 'todo/task_card.html' with task=task %}
+                {% empty %}
+                    <div class="text-center py-6 text-gray-400 text-xs border-2 border-dashed border-[#EDE6D4] rounded-lg" role="status">
+                        Aucune tâche
+                    </div>
+                {% endfor %}
+            </div>
         </div>
-        {% endfor %}
+
+        <div class="kanban-column flex-1 min-w-[250px] bg-[#FDFBF7] rounded-xl border border-[#EDE6D4] p-4" data-status="done" aria-label="Colonne Terminé">
+            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-green-400 inline-block"></span>
+                Terminé
+                <span class="ml-auto text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">{{ dones|length }}</span>
+            </h3>
+            <div id="done-list" class="kanban-cards min-h-[120px] space-y-2" role="list" aria-label="Tâches terminées">
+                {% for task in dones %}
+                    {% include 'todo/task_card.html' with task=task %}
+                {% empty %}
+                    <div class="text-center py-6 text-gray-400 text-xs border-2 border-dashed border-[#EDE6D4] rounded-lg" role="status">
+                        Aucune tâche
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
     </div>
 </div>
+
+<div id="sr-announcement" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+<script>
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+
+    function announce(message) {
+        const el = document.getElementById('sr-announcement');
+        if (el) {
+            el.textContent = message;
+        }
+    }
+
+    function updateTaskStatus(taskId, newStatus) {
+        fetch('{% url "task-update-status" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify({ id: taskId, status: newStatus }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Erreur lors de la mise à jour');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                const statusLabels = {
+                    'todo': 'À faire',
+                    'in_progress': 'En cours',
+                    'done': 'Terminé'
+                };
+                announce('Tâche déplacée vers ' + (statusLabels[newStatus] || newStatus));
+                updateCounts();
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            announce('Erreur lors du déplacement de la tâche');
+        });
+    }
+
+    function updateCounts() {
+        document.querySelectorAll('.kanban-column').forEach(column => {
+            const status = column.dataset.status;
+            const list = column.querySelector('.kanban-cards');
+            const count = list ? list.querySelectorAll('.task-card').length : 0;
+            const badge = column.querySelector('h3 .rounded-full');
+            if (badge) {
+                badge.textContent = count;
+            }
+        });
+    }
+
+    const columns = ['todo-list', 'in-progress-list', 'done-list'];
+    columns.forEach(function(id) {
+        const el = document.getElementById(id);
+        if (el) {
+            new Sortable(el, {
+                group: 'tasks',
+                animation: 150,
+                ghostClass: 'opacity-40',
+                dragClass: 'cursor-grabbing',
+                onEnd: function(evt) {
+                    const taskId = evt.item.dataset.id;
+                    const newStatus = evt.to.closest('.kanban-column').dataset.status;
+                    updateTaskStatus(taskId, newStatus);
+                },
+            });
+        }
+    });
+</script>
 
 {% endblock content %}

@@ -1,0 +1,19 @@
+<div class="task-card bg-white p-3 rounded-lg border border-[#EDE6D4] hover:shadow-md transition cursor-grab active:cursor-grabbing flex items-center justify-between gap-2"
+     data-id="{{ task.id }}"
+     role="listitem"
+     tabindex="0"
+     aria-label="Tâche : {{ task.title }}">
+    <span class="text-sm font-medium text-gray-700 truncate">{{ task.title }}</span>
+    <div class="flex gap-2 text-xs shrink-0">
+        <a href="{% url 'task-update' task.id %}"
+           class="text-amber-600 hover:text-amber-700 font-medium transition"
+           aria-label="Modifier {{ task.title }}">
+            Modifier
+        </a>
+        <a href="{% url 'task-delete' task.id %}"
+           class="text-[#FF7E5F] hover:text-red-600 font-medium transition"
+           aria-label="Supprimer {{ task.title }}">
+            Supprimer
+        </a>
+    </div>
+</div>

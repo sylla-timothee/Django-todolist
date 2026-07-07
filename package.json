@@ -1,0 +1,22 @@
+{
+  "name": "django-todolist",
+  "version": "1.0.0",
+  "description": "Une application Web de gestion de tâches (Todo-List) robuste, sécurisée et élégante, développée avec le framework **Django** et habillée avec **Tailwind CSS**. Ce projet a été conçu dans un cadre personnel pour démontrer la maîtrise d'un CRUD complet, d'un système d'authentification utilisateur étanche et de l'extension de modèles.",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sylla-timothee/Django-todolist.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sylla-timothee/Django-todolist/issues"
+  },
+  "homepage": "https://github.com/sylla-timothee/Django-todolist#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@types/node": "^26.1.0"
+  }
+}

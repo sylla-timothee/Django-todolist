@@ -3,12 +3,12 @@
 
 <div class="bg-gradient-to-r from-[#FF7E5F] to-[#FEB47B] p-6 text-white">
     <h1 class="text-xl font-semibold">Gestion de la tâche</h1>
-    <a href="{% url 'tasks' %}" class="text-xs text-[#FDFBF7] hover:underline">← Retour à la liste</a>
+    <a href="{% url 'tasks' %}" class="text-xs text-[#FDFBF7] hover:underline">← Retour au tableau</a>
 </div>
 
 <form method="POST" action="" class="p-6 space-y-6 bg-white">
     {% csrf_token %}
-    
+
     <div class="space-y-4 text-gray-700">
         {% for field in form %}
             <div class="flex flex-col gap-1">
@@ -21,6 +21,10 @@
         {% endfor %}
     </div>
 
+    {% if view.object %}
+        <p class="text-xs text-gray-400">Statut actuel : <span class="font-medium">{{ object.get_status_display }}</span></p>
+    {% endif %}
+
     <button type="submit" class="w-full bg-[#FF7E5F] hover:bg-[#ED6A4C] text-white font-medium py-3 rounded-xl transition shadow-md shadow-[#FF7E5F]/20">
         Confirmer et enregistrer
     </button>
@@ -32,9 +36,6 @@
     }
     input[type="text"]:focus {
         border-color: #FF7E5F; box-shadow: 0 0 0 3px rgba(255, 126, 95, 0.1);
-    }
-    input[type="checkbox"] {
-        width: 1.2rem; height: 1.2rem; accent-color: #FF7E5F; cursor: pointer;
     }
 </style>
 
